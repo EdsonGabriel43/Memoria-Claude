@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curso Prático – Como Emitir Nota Fiscal de Serviços pelo Portal Nacional</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'brand-dark': '#034E55',
+              'brand-primary': '#2DBF96',
+              'brand-secondary': '#34BF8D',
+              'brand-accent': '#59BF2E',
+              'brand-light': '#F0F7F7',
+              'brand-text-main': '#022C30',
+              'brand-text-muted': '#567173',
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-white text-brand-text-main font-sans leading-relaxed">
+
+    <!-- Header -->
+    <header class="bg-brand-dark text-center py-4 shadow-md">
+        <div class="container mx-auto">
+            <h1 class="text-white text-3xl font-bold tracking-wider">Coach Consultoria</h1>
+            <p class="text-gray-300 text-sm opacity-80">Transformando negócios, construindo futuro!</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="bg-brand-dark text-white py-12 px-5 text-center">
+            <div class="container mx-auto">
+                <h1 class="text-3xl md:text-5xl font-extrabold mb-4 max-w-3xl mx-auto leading-tight">
+                    Curso Prático: Domine a Emissão de NFS-e no Portal Nacional
+                </h1>
+                <p class="max-w-3xl mx-auto mb-8 text-gray-200 text-lg">
+                    Um passo a passo direto ao ponto para você emitir suas notas sem erros, evitar multas e destravar seus pagamentos.
+                </p>
+                <div class="bg-white text-brand-text-main rounded-2xl p-6 max-w-md mx-auto shadow-2xl text-center">
+                    <p class="text-xs uppercase text-brand-text-muted font-semibold tracking-widest">INVESTIMENTO ÚNICO</p>
+                    <div class="text-6xl font-black my-2 text-brand-dark">R$ 97,00</div>
+                    <p class="mb-4 text-brand-text-muted">Acesso imediato, vitalício e com certificado de conclusão.</p>
+                    <a href="https://seu-link-de-checkout.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-brand-accent text-white rounded-xl py-4 px-8 font-bold cursor-pointer transition-transform duration-150 ease-out hover:scale-105 shadow-lg text-lg w-full">
+                        Quero Emitir Minha NFS-e Agora
+                    </a>
+                    <p class="text-sm text-brand-text-muted mt-4">
+                        Pagamento seguro. Acesso liberado na hora.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VSL Section -->
+        <section class="py-12 md:py-16 bg-brand-light">
+            <div class="container mx-auto px-5 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-4">Veja como é simples destravar a emissão de notas</h2>
+                <p class="max-w-2xl mx-auto text-brand-text-muted mb-8">Neste vídeo, nossa especialista explica o caminho para você dominar o Portal Nacional de NFS-e de uma vez por todas.</p>
+
+                <!-- Player Vertical para YouTube Shorts -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative w-full max-w-[360px] mx-auto" style="aspect-ratio: 9/16;">
+                        <div id="video-container" class="absolute inset-0 bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+                            <!-- Thumbnail e botão de play -->
+                            <div id="video-thumbnail" class="absolute inset-0 w-full h-full">
+                                <!-- Thumbnail do vídeo -->
+                                <div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('https://i.ytimg.com/vi/TB47nc-mzvM/maxresdefault.jpg');"></div>
+
+                                <!-- Overlay escuro -->
+                                <div class="absolute inset-0 bg-brand-dark bg-opacity-50"></div>
+
+                                <!-- Botão de Play centralizado -->
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <button onclick="playVideo()" class="group relative" aria-label="Reproduzir vídeo">
+                                        <!-- Círculo do botão -->
+                                        <div class="relative bg-white rounded-full p-6 shadow-2xl transform transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-accent">
+                                            <!-- Ícone de Play -->
+                                            <svg class="w-12 h-12 text-brand-dark group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+                                            </svg>
+
+                                            <!-- Pulso animado -->
+                                            <div class="absolute inset-0 rounded-full bg-white opacity-20 animate-ping"></div>
+                                        </div>
+
+                                        <!-- Texto abaixo do botão -->
+                                        <p class="mt-4 text-white font-bold text-sm tracking-wide uppercase">
+                                            Assistir agora
+                                        </p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carta Section -->
+        <section class="py-12 md:py-16 bg-white">
+            <div class="container mx-auto px-5">
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-6 text-center">Cansado de travar na hora de emitir notas?</h2>
+                <div class="prose max-w-3xl mx-auto text-brand-text-main text-center">
+                    <p class="text-lg">
+                        Se o Portal Nacional parece um labirinto, você se perde nos campos novos, teme a Reforma Tributária ou já ouviu frases como "O portal não deixa emitir!" ou "Onde baixo o XML?", <strong>este curso é a sua saída.</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mentor Section -->
+        <section class="py-12 md:py-16 bg-white">
+            <div class="container mx-auto px-5">
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-8 text-center">Conheça sua mentora, Elisangela Nilo</h2>
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div class="md:w-1/3 text-center">
+                        <img src="https://picsum.photos/seed/elisangela/400/400" alt="Foto de Elisangela Nilo" class="rounded-full w-48 h-48 md:w-64 md:h-64 mx-auto object-cover shadow-xl border-4 border-brand-primary"/>
+                    </div>
+                    <div class="md:w-2/3">
+                        <p class="text-brand-text-main mb-4 text-lg">
+                            Com mais de 15 anos de experiência em consultoria fiscal e contábil, <strong>Elisangela Nilo</strong> é uma autoridade quando o assunto é simplificar a burocracia tributária no Brasil.
+                        </p>
+                        <p class="text-brand-text-main mb-4">
+                            Sua paixão é traduzir o "contabilês" para uma linguagem que qualquer empreendedor possa entender e aplicar, evitando multas e otimizando processos.
+                        </p>
+                        <p class="text-brand-text-muted italic bg-brand-light p-4 rounded-lg border-l-4 border-brand-secondary">
+                            "Meu objetivo é dar autonomia para que você resolva as questões fiscais do dia a dia com segurança e agilidade, sem depender de consultores para cada pequena dúvida."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conteúdo Section -->
+        <section class="py-12 md:py-16 bg-brand-light">
+            <div class="container mx-auto px-5">
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-6 text-center">O que você vai aprender na prática</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                    <!-- Card 1 -->
+                    <div class="bg-white border border-gray-200/50 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-lg text-center">
+                        <div class="flex justify-center mb-4">
+                            <div class="bg-brand-primary text-white rounded-full p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg text-brand-dark mb-2">Portal Nacional da NFS-e</h3>
+                        <p class="text-brand-text-muted">Acesso, configurações iniciais e visão geral do sistema.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white border border-gray-200/50 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-lg text-center">
+                        <div class="flex justify-center mb-4">
+                            <div class="bg-brand-primary text-white rounded-full p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg text-brand-dark mb-2">Emissão Correta (Simples Nacional)</h3>
+                        <p class="text-brand-text-muted">Passo a passo completo para emitir no modelo nacional sem erros.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white border border-gray-200/50 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-lg text-center">
+                        <div class="flex justify-center mb-4">
+                            <div class="bg-brand-primary text-white rounded-full p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg text-brand-dark mb-2">Conferência, DANFE e XML</h3>
+                        <p class="text-brand-text-muted">Como gerar o PDF, baixar o XML e enviar ao cliente corretamente.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white border border-gray-200/50 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-lg text-center">
+                        <div class="flex justify-center mb-4">
+                            <div class="bg-brand-primary text-white rounded-full p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg text-brand-dark mb-2">Cancelamento e Retificação</h3>
+                        <p class="text-brand-text-muted">Aprenda a corrigir notas emitidas e quando é possível cancelar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resultado Section -->
+        <section class="py-12 md:py-16 bg-white">
+            <div class="container mx-auto px-5">
+                <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-6 text-center">Com este curso, você vai:</h2>
+                <div class="max-w-2xl mx-auto">
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="text-brand-accent mr-3 mt-1">✔</span>Emitir e conferir notas fiscais de serviço <strong>sem depender de ninguém</strong>.</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3 mt-1">✔</span>Evitar erros que <strong>travam o recebimento</strong> junto ao seu cliente.</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3 mt-1">✔</span>Garantir que sua empresa esteja <strong>100% adaptada à Reforma Tributária</strong>.</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3 mt-1">✔</span><strong>Economizar tempo e dinheiro</strong> ao resolver problemas de emissão por conta própria.</li>
+                    </ul>
+                </div>
+                <div class="mt-8 max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg border-l-4 border-brand-primary">
+                    <p class="text-lg italic text-brand-text-main">
+                        "Aprendi em menos de 30 minutos a emitir notas corretas pelo Portal Nacional. Simples, direto e 100% aplicável!"
+                    </p>
+                    <p class="text-right font-bold text-brand-text-muted mt-2">- Joana S., Gerente Financeira</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-12 md:py-16 bg-brand-dark text-center">
+            <div class="container mx-auto px-5">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Pronto para destravar suas notas fiscais?</h2>
+                <p class="max-w-xl mx-auto text-gray-300 mb-8 text-lg">Faça sua inscrição agora e tenha acesso imediato ao treinamento completo.</p>
+                <a href="https://seu-link-de-checkout.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-brand-accent text-white rounded-xl py-4 px-10 font-bold cursor-pointer transition-transform duration-150 ease-out hover:scale-105 shadow-xl text-xl">
+                    COMPRAR AGORA POR R$ 97,00
+                </a>
+                <p class="text-xs text-gray-400 mt-4">
+                    Pagamento seguro | 7 dias de garantia | Acesso vitalício
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-gray-300 text-center py-8 px-5 border-t border-white/10">
+        Coach Consultoria Empresarial — Transformando negócios, construindo futuro!
+    </footer>
+
+    <!-- Script do Player de Vídeo -->
+    <script>
+        function playVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const thumbnail = document.getElementById('video-thumbnail');
+
+            // Criar iframe do YouTube
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/TB47nc-mzvM?autoplay=1&rel=0&controls=1&modestbranding=1';
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.title = 'YouTube Shorts video player';
+            iframe.className = 'absolute top-0 left-0 w-full h-full';
+
+            // Remover thumbnail e adicionar iframe
+            thumbnail.remove();
+            videoContainer.appendChild(iframe);
+        }
+    </script>
+</body>
+</html>
