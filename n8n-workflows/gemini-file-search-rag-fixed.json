@@ -1,0 +1,359 @@
+{
+  "name": "Gemini File Search RAG - Fixed",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Upload Files to Gemini File Search",
+        "formDescription": "Upload PDF or text files to be indexed in Google Gemini File Search Store",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload File",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf, .txt",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Upload File"
+        }
+      },
+      "id": "12b58779-03e3-4283-86b3-113694051718",
+      "name": "File Upload Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        160,
+        272
+      ],
+      "webhookId": "53507463-04ff-4627-a563-c1fcee98d7cb"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Restructure data and KEEP binary\nreturn items.map(item => {\n  const uploadFile = item.json['Upload File'];\n  \n  // Debug: Log binary field names\n  console.log('Binary fields:', Object.keys(item.binary || {}));\n  \n  // Get the first binary field\n  const binaryKeys = Object.keys(item.binary || {});\n  const firstBinaryKey = binaryKeys[0];\n  \n  // Rename binary field to 'data' for the HTTP Request node\n  const binaryData = {};\n  if (firstBinaryKey) {\n    binaryData.data = item.binary[firstBinaryKey];\n    console.log('Renamed binary field from', firstBinaryKey, 'to data');\n  }\n  \n  return {\n    json: {\n      filename: uploadFile.filename,\n      mimetype: uploadFile.mimetype,\n      size: uploadFile.size,\n      submittedAt: item.json.submittedAt,\n      formMode: item.json.formMode\n    },\n    binary: binaryData\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        272
+      ],
+      "id": "96039877-b1ac-4936-88af-61a781515173",
+      "name": "Prepare Upload Data"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/upload/v1beta/files",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $env.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "=data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7e1f934d-b07b-4983-818b-90774bd2baa5",
+      "name": "Upload File to Gemini",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        608,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/{{ $env.GEMINI_STORE_NAME }}:importFile",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $env.GEMINI_API_KEY }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"fileName\": \"{{ $json.file.name }}\",\n  \"customMetadata\": [\n    {\n      \"key\": \"upload_date\",\n      \"stringValue\": \"{{ $now.format('yyyy-MM-dd HH:mm:ss') }}\"\n    },\n    {\n      \"key\": \"source\",\n      \"stringValue\": \"n8n-workflow\"\n    },\n    {\n      \"key\": \"original_filename\",\n      \"stringValue\": \"{{ $('Prepare Upload Data').item.json.filename }}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "a7b5ef07-ce63-46bd-93b6-aca895480f6f",
+      "name": "Import to Store",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        832,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Return success message with file info\nconst uploadResult = $input.item.json;\nconst originalData = $('Prepare Upload Data').item.json;\n\nreturn {\n  json: {\n    success: true,\n    message: 'File uploaded and indexed successfully!',\n    filename: originalData.filename,\n    fileUri: uploadResult.file?.uri || 'N/A',\n    storeName: $env.GEMINI_STORE_NAME,\n    uploadedAt: new Date().toISOString()\n  }\n};"
+      },
+      "id": "response-format",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        160,
+        -160
+      ],
+      "id": "d1385280-2364-4266-860b-92605ff9b400",
+      "name": "When chat message received",
+      "webhookId": "2a712572-c2b9-421f-814a-6f7975a57255"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        16
+      ],
+      "id": "c8610e22-dd60-4158-8886-052a7c4bdc66",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURE_ME",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        688,
+        16
+      ],
+      "id": "8dbd3652-baca-4c77-bbc8-53ad4b9cc45a",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use esta ferramenta SEMPRE que o usuário fizer uma pergunta sobre documentos, conteúdo, arquivos ou quiser informações. Não hesite, chame imediatamente.",
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={{ $env.GEMINI_API_KEY }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"{{ $json.query || $('When chat message received').item.json.chatInput }}\"\n        }\n      ]\n    }\n  ],\n  \"tools\": [\n    {\n      \"fileSearch\": {\n        \"fileSearchStoreNames\": [\"{{ $env.GEMINI_STORE_NAME }}\"]\n      }\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        16
+      ],
+      "id": "9239197a-1193-43c5-834d-0f29068d7f60",
+      "name": "search_documents"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um assistente especializado em buscar e responder perguntas sobre documentos.\n\n🎯 SUA ÚNICA FUNÇÃO:\nSempre que o usuário mencionar qualquer coisa relacionada a documentos, arquivos, conteúdo ou fizer QUALQUER pergunta, você DEVE IMEDIATAMENTE chamar a ferramenta search_documents.\n\n✅ COMPORTAMENTO CORRETO:\n1. Usuário pergunta algo → CHAME search_documents IMEDIATAMENTE\n2. Não peça esclarecimentos desnecessários\n3. Não diga \"estou pronto para ajudar\"\n4. APENAS PESQUISE E RESPONDA\n\n📝 EXEMPLOS:\n\nUsuário: \"O que tem neste documento?\"\n→ Você: [chama search_documents(\"Forneça um resumo completo do documento\")]\n\nUsuário: \"Fale sobre a parceria com a Heygen\"\n→ Você: [chama search_documents(\"Quais informações existem sobre a parceria com a Heygen?\")]\n\nUsuário: \"Resuma\"\n→ Você: [chama search_documents(\"Resuma todo o conteúdo dos documentos\")]\n\n🔍 APÓS RECEBER A RESPOSTA:\n1. Extraia o texto de: candidates[0].content.parts[0].text\n2. Se houver citações em groundingMetadata, mencione-as\n3. Forneça uma resposta clara e direta ao usuário\n\n❌ NUNCA DIGA:\n- \"Por favor, forneça sua pergunta\"\n- \"Como posso ajudar hoje?\"\n- \"Preciso de mais informações\"\n\n✅ SEMPRE FAÇA:\n- Chame a ferramenta imediatamente\n- Interprete o resultado\n- Responda de forma direta e útil\n\nLEMBRE-SE: Qualquer menção a documentos = CHAME A FERRAMENTA AGORA!",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        576,
+        -160
+      ],
+      "id": "d7426a05-edb6-4491-aee8-54379206a6bb",
+      "name": "Gemini RAG Agent"
+    },
+    {
+      "parameters": {
+        "content": "## 🤖 Chat Agent with Gemini RAG\n\n**Fluxo:**\n1. Usuário envia mensagem no chat\n2. Agent usa OpenAI GPT-4o-mini para processar\n3. Tool search_documents consulta Gemini File Search\n4. Resposta é retornada com base nos documentos\n\n**Configuração necessária:**\n- OpenAI API Key (credenciais)\n- GEMINI_API_KEY (variável de ambiente)\n- GEMINI_STORE_NAME (variável de ambiente)",
+        "height": 416,
+        "width": 944,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "686f8e99-478a-4090-9964-ab7f084bb3d6",
+      "name": "Sticky Note - Chat"
+    },
+    {
+      "parameters": {
+        "content": "## 📤 Upload de Documentos\n\n**Fluxo:**\n1. Formulário recebe arquivo PDF ou TXT\n2. Dados são preparados\n3. Arquivo é enviado para Gemini Files API\n4. Arquivo é importado para o File Search Store\n5. Resposta de sucesso é retornada\n\n**Configuração necessária:**\n- GEMINI_API_KEY (variável de ambiente)\n- GEMINI_STORE_NAME (variável de ambiente)\n  Ex: fileSearchStores/abc123xyz",
+        "height": 288,
+        "width": 1184,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "0f220cbe-c960-416f-aeba-39fb191164c1",
+      "name": "Sticky Note - Upload"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "File Upload Form": {
+      "main": [
+        [
+          {
+            "node": "Prepare Upload Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Upload Data": {
+      "main": [
+        [
+          {
+            "node": "Upload File to Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File to Gemini": {
+      "main": [
+        [
+          {
+            "node": "Import to Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Import to Store": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Gemini RAG Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Gemini RAG Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Gemini RAG Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_documents": {
+      "ai_tool": [
+        [
+          {
+            "node": "Gemini RAG Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "instanceId": "n8n-local"
+  },
+  "tags": []
+}
