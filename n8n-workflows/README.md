@@ -4,15 +4,37 @@ Esta pasta contém workflows do n8n configurados e prontos para uso.
 
 ---
 
+## 🎓 COMECE AQUI SE VOCÊ É INICIANTE!
+
+**Não entende nada de nada?** Sem problemas!
+
+👉 **Leia o [GUIA-INICIANTES.md](./GUIA-INICIANTES.md)** - Explicação passo a passo para quem nunca mexeu com isso
+
+👉 **Imprima o [CHECKLIST-SIMPLES.md](./CHECKLIST-SIMPLES.md)** - Lista rápida do que fazer
+
+---
+
 ## 🤖 Gemini File Search RAG
 
 Sistema completo de RAG (Retrieval-Augmented Generation) usando Google Gemini File Search e OpenAI.
 
-### Arquivos:
+### 📚 Escolha seu guia:
+
+| Seu Nível | Guia Recomendado |
+|-----------|------------------|
+| 😰 "Não sei nada" | **[GUIA-INICIANTES.md](./GUIA-INICIANTES.md)** - Explicação detalhada |
+| 🏃 "Quero fazer rápido" | **[QUICK-START.md](./QUICK-START.md)** - 5 minutos |
+| 🤓 "Quero detalhes técnicos" | **[GUIA-CONFIGURACAO-GEMINI-RAG.md](./GUIA-CONFIGURACAO-GEMINI-RAG.md)** - Completo |
+
+### 📁 Arquivos:
 
 - **`gemini-file-search-rag-fixed.json`** - Workflow corrigido e pronto para importar
-- **`GUIA-CONFIGURACAO-GEMINI-RAG.md`** - Guia completo de configuração passo a passo
+- **`GUIA-INICIANTES.md`** - 🆕 Guia para quem não entende nada
+- **`QUICK-START.md`** - Configuração rápida (5 minutos)
+- **`GUIA-CONFIGURACAO-GEMINI-RAG.md`** - Guia completo técnico
+- **`CHECKLIST-SIMPLES.md`** - Checklist visual passo a passo
 - **`create-gemini-store.sh`** - Script helper para criar o File Search Store
+- **`.env.example`** - Template de configuração
 
 ### 🚀 Início Rápido
 
